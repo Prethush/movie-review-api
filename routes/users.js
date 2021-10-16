@@ -17,7 +17,6 @@ router.post('/register', async (req, res, next) => {
   try {
     let user = await User.create(req.body.user);
     let token = await user.signToken();
-    console.log(token);
     res.status(200).json({user: user.userJSON(token)});
   }catch(error) {
     next(error);
@@ -29,16 +28,16 @@ router.post('/login', async (req, res, next) => {
   console.log(req.body);
   let {email, passwd} = req.body.user;
   if(!email || !passwd) {
-    return res.status(400).json({error: {body: "Email/Password required"}});
+    return res.status(400).json({errors: {body: "Email/Password required"}});
   }
   try {
     let user = await User.findOne({email});
     if(!user) {
-      return res.status(400).json({error: {body: "Email is not registered"}});
+      return res.status(400).json({errors: {body: "Email is not registered"}});
     }
     let result = await user.verifyPasswd(passwd);
     if(!result) {
-      return res.status(400).json({error: {body: "Password is incorrect"}});
+      return res.status(400).json({errors: {body: "Password is incorrect"}});
     }
     let token = await user.signToken();
     res.status(200).json({user: user.userJSON(token)});
