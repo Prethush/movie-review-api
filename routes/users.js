@@ -3,8 +3,13 @@ var router = express.Router();
 var User = require('../models/User');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', async (req, res, next) {
+  try {
+    let users = await User.find({});
+    res.status(200).json({users: users});
+  }catch(error) {
+    next(error);
+  }
 });
 
 //handling register request
@@ -41,6 +46,7 @@ router.post('/login', async (req, res, next) => {
     next(error);
   }
 });
+
 
 
 module.exports = router;
