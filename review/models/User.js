@@ -24,7 +24,7 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-//verifying the passwd during login
+//verifying the passwd during login request
 userSchema.methods.verifyPasswd = async function(passwd) {
   try {
     let result = await bcrypt.compare(passwd, this.passwd);
