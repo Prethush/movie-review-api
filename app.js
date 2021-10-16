@@ -45,6 +45,7 @@ app.use(function(err, req, res, next) {
 });
 
 let port = process.env.PORT;
+// listening to port
 app.listen(port, () => {
   console.log("Server is listening on port 3k")
 });
