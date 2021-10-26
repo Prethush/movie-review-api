@@ -9,9 +9,9 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var movieRouter = require('./routes/movie');
 
 var app = express();
-app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   console.log(err ? err : "connected to db");
@@ -27,8 +27,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
+
 app.use('/api/v1/', indexRouter);
 app.use('/api/v1/users/', usersRouter);
+app.use('/api/v1/movies', movieRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -46,10 +49,10 @@ app.use(function(err, req, res, next) {
   res.status(400).json({error: {body: [err]}});
 });
 
-let port = process.env.PORT;
-// listening to port
-app.listen(port, () => {
-  console.log("Server is listening on port 3k")
-});
+// let port = process.env.PORT;
+// // listening to port
+// app.listen(port, () => {
+//   console.log("Server is listening on port 3k")
+// });
 
 module.exports = app;

@@ -6,9 +6,10 @@ require("dotenv").config();
 
 // Defining the structure of user
 let userSchema = new Schema({
-  username: {type: String, minlength: 6, required: true, unique: true},
+  username: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true},
-  passwd: {type: String, required: true, minlength: 6},
+  passwd: {type: String, required: true},
+  watchList: [{type: Schema.Types.ObjectId, ref: "Movie"}],
   bio: String
 },{timestamps: true});
 
@@ -57,5 +58,14 @@ userSchema.methods.userJSON = function(token){
   }
 }
 
+userSchema.methods.displayUser = function() {
+  return {
+    username: this.username,
+    email: this.email,
+    bio: this.bio,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
+  }
+}
 let User = mongoose.model("User", userSchema);
 module.exports = User;

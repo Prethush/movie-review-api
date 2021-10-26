@@ -11,9 +11,26 @@ module.exports = {
         req.user = payload;
         next();
       }else {
-        res.status(400).json({error: {body: ["Token required"]}});
+        return res.status(400).json({error: {body: ["Token required"]}});
       }
     }catch(error) {
+      console.log(error, "error");
+      next(error);
+    }
+  },
+
+  authOptional: async (req, res, next) => {
+    let token = req.headers.authorization === 'undefined' ? null : req.headers.authorization;
+    try{
+      if(token) {
+        let payload = await jwt.verify(token, process.env.SECRET);
+        req.user = payload;
+        next();
+      }else {
+        next();
+      }
+    }catch(error) {
+      console.log(error, "error");
       next(error);
     }
   }
