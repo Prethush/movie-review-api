@@ -49,10 +49,10 @@ app.use(function(err, req, res, next) {
   res.status(400).json({error: {body: [err]}});
 });
 
-// let port = process.env.PORT;
-// // listening to port
-// app.listen(port, () => {
-//   console.log("Server is listening on port 3k")
-// });
+let port = process.env.PORT;
+// listening to port
+app.listen(port, () => {
+  console.log("Server is listening on port 3k")
+});
 
 module.exports = app;
