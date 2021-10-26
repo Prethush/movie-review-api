@@ -22,7 +22,9 @@ router.post('/', async (req, res, next) => {
     try{
       let movie = await Movie.findOne({movieId});
       if(movie) {
-        return res.status(400).json({error: {body: ["Movie is already stored in db"]}});
+        return res.status(200).json({movie});
+      }else {
+        res.status(400).json({error: {body: ["movie id is wrong"]}});
       }
       movie = await Movie.create(req.body);
       return res.status(200).json({movie});
